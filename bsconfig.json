@@ -3,16 +3,7 @@
   "sources": {
     "dir": "src",
     "files": [
-      "batList.ml",
-      "batMap.ml",
-      "batEnum.ml",
-      "batRef.ml",
-      "batInnerIO.ml",
-      "batInnerWeaktbl.ml",
-      "batConcurrent.ml",
-      "batOrd.ml",
-      "batInterfaces.ml",
-      "batPrintf.ml"
+      "option.ml"
     ]
   }
 }
