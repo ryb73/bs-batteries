@@ -1,0 +1,19 @@
+{
+  "name": "bs-batteries",
+  "version": "0.0.1",
+  "description": "Ocaml batteries for bucklescript",
+  "main": "index.js",
+  "repository": "git@github.com:ocaml-batteries-team/batteries-included.git",
+  "author": "meafmira <gang7e@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "bsb -clean-world -make-world",
+    "watch": "bsb -clean-world -make-world -w"
+  },
+  "peerDependencies": {
+    "bs-platform": "^1.7.5"
+  },
+  "devDependencies": {
+    "bs-platform": "^1.7.5"
+  }
+}
