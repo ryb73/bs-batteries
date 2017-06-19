@@ -46,8 +46,8 @@
 
 type 'a t = 'a array (** The type of arrays. *)
 
-include BatEnum.Enumerable with type 'a enumerable = 'a t
-include BatInterfaces.Mappable with type 'a mappable = 'a t
+(*include BatEnum.Enumerable with type 'a enumerable = 'a t
+include BatInterfaces.Mappable with type 'a mappable = 'a t*)
 
 external length : 'a array -> int = "%array_length"
 (** Return the length (number of elements) of the given array. *)
@@ -82,14 +82,14 @@ external make : int -> 'a -> 'a array = "caml_make_vect"
     If the value of [x] is a floating-point number, then the maximum
     size is only [Sys.max_array_length / 2].*)
 
-##V<4.2##val create_float: int -> float array
+(*##V<4.2##val create_float: int -> float array
 ##V<4.2##val make_float: int -> float array
 
 ##V=4.2##external make_float: int -> float array = "caml_make_float_vect"
-##V=4.2##val create_float: int -> float array
+##V=4.2##val create_float: int -> float array*)
 
-##V>=4.3##external create_float: int -> float array = "caml_make_float_vect"
-##V>=4.3##val make_float: int -> float array
+external create_float: int -> float array = "caml_make_float_vect"
+val make_float: int -> float array
 (** [Array.make_float n] returns a fresh float array of length [n],
    with uninitialized data.
 
@@ -369,8 +369,8 @@ val decorate_stable_sort : ('a -> 'b) -> 'a array -> 'a array
 val decorate_fast_sort : ('a -> 'b) -> 'a array -> 'a array
 (** As {!Array.decorate_stable_sort}, but uses fast_sort internally. *)
 
-val bsearch : 'a BatOrd.ord -> 'a array -> 'a ->
-  [ `All_lower | `All_bigger | `Just_after of int | `Empty | `At of int ]
+(*val bsearch : 'a BatOrd.ord -> 'a array -> 'a ->
+  [ `All_lower | `All_bigger | `Just_after of int | `Empty | `At of int ]*)
 (** [bsearch cmp arr x] finds the index of the object [x] in the array [arr],
     provided [arr] is {b sorted} using [cmp]. If the array is not sorted,
     the result is not specified (may raise Invalid_argument).
@@ -456,23 +456,23 @@ val findi : ('a -> bool) -> 'a array -> int
     @raise Not_found if there is no value that satisfies [p] in the
     array [a].  *)
 
-val filter : ('a -> bool) -> 'a array -> 'a array
+(*val filter : ('a -> bool) -> 'a array -> 'a array*)
 (** [filter p a] returns all the elements of the array [a]
     that satisfy the predicate [p].  The order of the elements
     in the input array is preserved.  *)
 
-val filteri : (int -> 'a -> bool) -> 'a array -> 'a array
+(*val filteri : (int -> 'a -> bool) -> 'a array -> 'a array*)
 (** As [filter] but with the index passed to the predicate. *)
 
-val filter_map : ('a -> 'b option) -> 'a array -> 'b array
+(*val filter_map : ('a -> 'b option) -> 'a array -> 'b array*)
 (** [filter_map f e] returns an array consisting of all elements
     [x] such that [f y] returns [Some x] , where [y] is an element
     of [e]. *)
 
-val find_all : ('a -> bool) -> 'a array -> 'a array
+(*val find_all : ('a -> bool) -> 'a array -> 'a array*)
 (** [find_all] is another name for {!Array.filter}. *)
 
-val partition : ('a -> bool) -> 'a array -> 'a array * 'a array
+(*val partition : ('a -> bool) -> 'a array -> 'a array * 'a array*)
 (** [partition p a] returns a pair of arrays [(a1, a2)], where
     [a1] is the array of all the elements of [a] that
     satisfy the predicate [p], and [a2] is the array of all the
@@ -489,24 +489,24 @@ val rev_in_place : 'a array -> unit
 
 (** {6 Conversions} *)
 
-val enum : 'a array -> 'a BatEnum.t
+(*val enum : 'a array -> 'a BatEnum.t*)
 (** Returns an enumeration of the elements of an array.
     Behavior of the enumeration is undefined if the contents of the array changes afterwards.*)
 
-val of_enum : 'a BatEnum.t -> 'a array
+(*val of_enum : 'a BatEnum.t -> 'a array*)
 (** Build an array from an enumeration. *)
 
-val backwards : 'a array -> 'a BatEnum.t
+(*val backwards : 'a array -> 'a BatEnum.t*)
 (** Returns an enumeration of the elements of an array, from last to first. *)
 
-val of_backwards : 'a BatEnum.t -> 'a array
+(*val of_backwards : 'a BatEnum.t -> 'a array*)
 (** Build an array from an enumeration, with the first element of
     the enumeration as the last element of the array and vice
     versa. *)
 
 (** {6 Utilities} *)
 
-val range : 'a array -> int BatEnum.t
+(*val range : 'a array -> int BatEnum.t*)
 (** [range a] returns an enumeration of all valid indexes into the given
     array.  For example, [range [|2;4;6;8|] = 0--3].*)
 
@@ -517,8 +517,8 @@ val insert : 'a array -> 'a -> int -> 'a array
 
 (** {6 Boilerplate code}*)
 
-val print : ?first:string -> ?last:string -> ?sep:string ->
-  ('a, 'b) BatIO.printer -> ('a t, 'b) BatIO.printer
+(*val print : ?first:string -> ?last:string -> ?sep:string ->
+  ('a, 'b) BatIO.printer -> ('a t, 'b) BatIO.printer*)
 (** Print the contents of an array, with [~first] preceeding the first
     item (default: "\[|"), [~last] following the last item (default:
     "|\]") and [~sep] separating items (default: "; ").  A printing
@@ -527,19 +527,19 @@ val print : ?first:string -> ?last:string -> ?sep:string ->
     Example: IO.to_string (Array.print Int.print) [|2;4;66|] = "[|2; 4; 66|]"
 *)
 
-val compare : 'a BatOrd.comp -> 'a array BatOrd.comp
+(*val compare : 'a BatOrd.comp -> 'a array BatOrd.comp*)
 (** [compare c] generates the lexicographical order on arrays induced
     by [c]. That is, given a comparison function for the elements of
     an array, this will return a comparison function for arrays of
     that type.  *)
 
-val ord : 'a BatOrd.ord -> 'a array BatOrd.ord
+(*val ord : 'a BatOrd.ord -> 'a array BatOrd.ord*)
 (** Hoist an element comparison function to compare arrays of those
     elements, with shorter arrays less than longer ones, and
     lexicographically for arrays of the same size.  This is a
     different ordering than [compare], but is often faster. *)
 
-val shuffle : ?state:Random.State.t -> 'a array -> unit
+(*val shuffle : ?state:Random.State.t -> 'a array -> unit*)
 (** [shuffle ~state:rs a] randomly shuffles in place the elements of [a].
     The optional random state [rs] allows to control the random
     numbers being used during shuffling (for reproducibility).
@@ -551,7 +551,7 @@ val shuffle : ?state:Random.State.t -> 'a array -> unit
     @since 2.6.0
 *)
 
-val equal : 'a BatOrd.eq -> 'a array BatOrd.eq
+(*val equal : 'a BatOrd.eq -> 'a array BatOrd.eq*)
 (** Hoist a equality test for elements to arrays.  Arrays are only
     equal if their lengths are the same and corresponding elements
     test equal. *)
@@ -614,8 +614,8 @@ module Labels : sig
   val findi:      f:('a -> bool) -> 'a t -> int
   val map:        f:('a -> 'b) -> 'a t -> 'b t
   val mapi:       f:(int -> 'a -> 'b) -> 'a t -> 'b t
-  val filter:     f:('a -> bool) -> 'a t -> 'a t
-  val filter_map: f:('a -> 'b option) -> 'a t -> 'b t
+  (*val filter:     f:('a -> bool) -> 'a t -> 'a t*)
+  (*val filter_map: f:('a -> 'b option) -> 'a t -> 'b t*)
   module LExceptionless : sig
     val find:       f:('a -> bool) -> 'a t -> 'a option
     val findi:      f:('a -> bool) -> 'a t -> int option
@@ -656,8 +656,8 @@ sig
   external make : int -> 'a -> ('a, _) t = "caml_make_vect"
   external create : int -> 'a -> ('a, _) t = "caml_make_vect"
 
-##V<4.2##  val make_float : int -> (float, _) t
-##V>=4.2##  external make_float : int -> (float, _) t = "caml_make_float_vect"
+(*##V<4.2##  val make_float : int -> (float, _) t*)
+external make_float : int -> (float, _) t = "caml_make_float_vect"
 (** [Array.make_float n] returns a fresh float array of length [n],
     with uninitialized data.
 
@@ -718,10 +718,10 @@ sig
   val mem : 'a -> ('a, [> `Read]) t -> bool
   val memq : 'a -> ('a, [> `Read]) t -> bool
   val findi : ('a -> bool) -> ('a, [> `Read]) t -> int
-  val filter : ('a -> bool) -> ('a, [> `Read]) t -> ('a, _) t
-  val filter_map : ('a -> 'b option) -> ('a, [> `Read]) t -> ('b, _) t
-  val find_all : ('a -> bool) -> ('a, [> `Read]) t -> ('a, _) t
-  val partition : ('a -> bool) -> ('a, [> `Read]) t -> ('a, _) t * ('a, _)t
+  (*val filter : ('a -> bool) -> ('a, [> `Read]) t -> ('a, _) t*)
+  (*val filter_map : ('a -> 'b option) -> ('a, [> `Read]) t -> ('b, _) t*)
+  (*val find_all : ('a -> bool) -> ('a, [> `Read]) t -> ('a, _) t*)
+  (*val partition : ('a -> bool) -> ('a, [> `Read]) t -> ('a, _) t * ('a, _)t*)
 
   (** {6 Array transformations} *)
 
@@ -736,10 +736,10 @@ sig
 
   (** {6 Conversions} *)
 
-  val enum : ('a, [> `Read]) t -> 'a BatEnum.t
-  val of_enum : 'a BatEnum.t -> ('a, _) t
-  val backwards : ('a, [> `Read]) t -> 'a BatEnum.t
-  val of_backwards : 'a BatEnum.t -> ('a, _) t
+  (*val enum : ('a, [> `Read]) t -> 'a BatEnum.t*)
+  (*val of_enum : 'a BatEnum.t -> ('a, _) t*)
+  (*val backwards : ('a, [> `Read]) t -> 'a BatEnum.t*)
+  (*val of_backwards : 'a BatEnum.t -> ('a, _) t*)
   val to_list : ('a, [> `Read]) t -> 'a list
   val of_list : 'a list -> ('a, _) t
 
@@ -751,11 +751,11 @@ sig
 
   (** {6 Boilerplate code}*)
 
-  val print : ?first:string -> ?last:string -> ?sep:string -> ('a BatIO.output -> 'b -> unit) ->  'a BatIO.output -> ('b, [>`Read]) t -> unit
+  (*val print : ?first:string -> ?last:string -> ?sep:string -> ('a BatIO.output -> 'b -> unit) ->  'a BatIO.output -> ('b, [>`Read]) t -> unit*)
 
-  val compare : 'a BatOrd.comp -> ('a, [> `Read]) t BatOrd.comp
-  val ord : 'a BatOrd.ord -> ('a, [> `Read]) t BatOrd.ord
-  val equal : 'a BatOrd.eq -> ('a, [> `Read]) t BatOrd.eq
+  (*val compare : 'a BatOrd.comp -> ('a, [> `Read]) t BatOrd.comp*)
+  (*val ord : 'a BatOrd.ord -> ('a, [> `Read]) t BatOrd.ord*)
+  (*val equal : 'a BatOrd.eq -> ('a, [> `Read]) t BatOrd.eq*)
 
   (** {6 Override modules}*)
 
@@ -794,8 +794,8 @@ sig
     val find:       f:('a -> bool) -> ('a, [> `Read]) t -> 'a
     val map:        f:('a -> 'b) -> ('a, [>`Read]) t -> ('b, _) t
     val mapi:       f:(int -> 'a -> 'b) -> ('a, [>`Read]) t -> ('b, _) t
-    val filter:     f:('a -> bool) -> ('a, [>`Read]) t -> ('a, _) t
-    val filter_map: f:('a -> 'b option) -> ('a, [>`Read]) t -> ('b, _) t
+    (*val filter:     f:('a -> bool) -> ('a, [>`Read]) t -> ('a, _) t*)
+    (*val filter_map: f:('a -> 'b option) -> ('a, [>`Read]) t -> ('b, _) t*)
   end
   (**/**)
   (** {6 Undocumented functions} *)
@@ -807,7 +807,7 @@ sig
 end
 
 module Incubator : sig
-  module Eq (T : BatOrd.Eq) : sig
+  (*module Eq (T : BatOrd.Eq) : sig
     type t = T.t array
     val eq : T.t array BatOrd.eq
   end
@@ -815,7 +815,7 @@ module Incubator : sig
   module Ord (T : BatOrd.Ord) : sig
     type t = T.t array
     val ord : T.t array BatOrd.ord
-  end
+  end*)
 end
 
 

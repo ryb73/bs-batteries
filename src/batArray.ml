@@ -26,14 +26,14 @@ type 'a mappable = 'a t
 
 include Array
 
-##V<4.2##let create_float n = make n 0.
+(*##V<4.2##let create_float n = make n 0.
 ##V<4.2##let make_float = create_float
 
 ##V=4.2##external make_float: int -> float array = "caml_make_float_vect"
-##V=4.2##external create_float: int -> float array = "caml_make_float_vect"
+##V=4.2##external create_float: int -> float array = "caml_make_float_vect"*)
 
-##V>=4.3##external create_float: int -> float array = "caml_make_float_vect"
-##V>=4.3##let make_float = create_float
+external create_float: int -> float array = "caml_make_float_vect"
+let make_float = create_float
 
 let singleton x = [|x|]
 (*$Q singleton
@@ -199,7 +199,7 @@ let find p xs = xs.(findi p xs)
 *)
 
 (* Use of BitSet suggested by Brian Hurt. *)
-let filter p xs =
+(*let filter p xs =
   let n = length xs in
   (* Use a bitset to store which elements will be in the final array. *)
   let bs = BatBitSet.create n in
@@ -215,7 +215,7 @@ let filter p xs =
       | None ->
         (* not enough 1 bits - incorrect count? *)
         assert false (*BISECT-VISIT*)
-    )
+    )*)
 (*$Q filter
   (Q.pair (Q.array Q.small_int) (Q.fun1 Q.small_int Q.bool)) (fun (a, f) -> \
     let b = Array.to_list (filter f a) in \
@@ -224,7 +224,7 @@ let filter p xs =
   )
 *)
 
-let filteri p xs =
+(*let filteri p xs =
   let n = length xs in
   (* Use a bitset to store which elements will be in the final array. *)
   let bs = BatBitSet.create n in
@@ -240,15 +240,15 @@ let filteri p xs =
       | None ->
         (* not enough 1 bits - incorrect count? *)
         assert false (*BISECT-VISIT*)
-    )
+    )*)
 
 (*$T filteri
    filteri (fun i x -> (i+x) mod 2 = 0) [|1;2;3;4;0;1;2;3|] = [|0;1;2;3|]
 *)
 
-let find_all = filter
+(*let find_all = filter*)
 
-let partition p xs =
+(*let partition p xs =
   let n = length xs in
   (* Use a bitset to store which elements will be in which final array. *)
   let bs = BatBitSet.create n in
@@ -274,7 +274,7 @@ let partition p xs =
         let r = xs.(!j) in
         incr j;
         r) in
-  xs1, xs2
+  xs1, xs2*)
 (*$Q partition
   (Q.pair (Q.array Q.small_int) (Q.fun1 Q.small_int Q.bool)) (fun (a, f) -> \
     let b1, b2 = partition f a in \
@@ -285,7 +285,7 @@ let partition p xs =
   )
 *)
 
-let enum xs =
+(*let enum xs =
   let rec make start xs =
     let n = length xs in
     (* inside the loop, as [make] may later be called with another array *)
@@ -300,7 +300,7 @@ let enum xs =
       ~clone:(fun () ->
         make (BatRef.copy start) xs)
   in
-  make (ref 0) xs
+  make (ref 0) xs*)
 (*$Q enum
   (Q.array Q.small_int) (fun a -> \
     let e = enum a in \
@@ -317,7 +317,7 @@ let enum xs =
 *)
 
 
-let backwards xs =
+(*let backwards xs =
   let rec make start xs =
     BatEnum.make
       ~next:(fun () ->
@@ -330,7 +330,7 @@ let backwards xs =
       ~clone:(fun () ->
         make (BatRef.copy start) xs)
   in
-  make (ref (length xs)) xs
+  make (ref (length xs)) xs*)
 (*$Q backwards
   (Q.array Q.small_int) (fun a -> \
     let e = backwards a in \
@@ -347,7 +347,7 @@ let backwards xs =
     BatEnum.is_empty e && BatEnum.is_empty e' \
   )
 *)
-
+(*
 let of_enum e =
   let n = BatEnum.count e in
   (* This assumes, reasonably, that init traverses the array in order. *)
@@ -355,20 +355,20 @@ let of_enum e =
     (fun _i ->
       match BatEnum.get e with
       | Some x -> x
-      | None -> assert false (*BISECT-VISIT*))
+      | None -> assert false (*BISECT-VISIT*))*)
 
-let of_backwards e =
-  of_list (BatList.of_backwards e)
+(*let of_backwards e =
+  of_list (BatList.of_backwards e)*)
 
-let range xs = BatEnum.(--^) 0 (Array.length xs)
+(*let range xs = BatEnum.(--^) 0 (Array.length xs)*)
 (*$Q range
   (Q.array Q.small_int) (fun a -> \
     BatEnum.equal (=) (range a) \
      (enum (Array.init (Array.length a) (fun i -> i))))
 *)
 
-let filter_map p xs =
-  of_enum (BatEnum.filter_map p (enum xs))
+(*let filter_map p xs =
+  of_enum (BatEnum.filter_map p (enum xs))*)
 (*$Q filter_map
   (Q.pair (Q.array Q.small_int) (Q.fun1 Q.small_int (Q.option Q.int))) \
   (fun (a, f) -> \
@@ -498,7 +498,7 @@ let cartesian_product a b =
     length (cartesian_product a b) = length a * length b)
 *)
 
-let compare cmp a b =
+(*let compare cmp a b =
   let length_a = Array.length a in
   let length_b = Array.length b in
   let length   = BatInt.min length_a length_b in
@@ -512,7 +512,7 @@ let compare cmp a b =
     else if length_a < length_b then -1
     else                              1
   in
-  aux 0
+  aux 0*)
 
 (*$T compare
    compare Pervasives.compare [|1;2;3|] [|1;2|] = 1
@@ -523,7 +523,7 @@ let compare cmp a b =
    compare (fun x y -> -(Pervasives.compare x y)) [|2;1|] [|1;2|] = -1
 *)
 
-let print ?(first="[|") ?(last="|]") ?(sep="; ") print_a  out t =
+(*let print ?(first="[|") ?(last="|]") ?(sep="; ") print_a  out t =
   match length t with
   | 0 ->
     BatInnerIO.nwrite out first;
@@ -535,7 +535,7 @@ let print ?(first="[|") ?(last="|]") ?(sep="; ") print_a  out t =
       BatInnerIO.nwrite out sep;
       print_a out (unsafe_get t i);
     done;
-    BatInnerIO.nwrite out last
+    BatInnerIO.nwrite out last*)
 (*$T
   BatIO.to_string (print ~sep:"," ~first:"[" ~last:"]" BatInt.print) \
     [|2;4;66|] = "[2,4,66]"
@@ -674,7 +674,7 @@ let decorate_fast_sort f xs =
     (fun (a, f) -> is_sorted_by f (decorate_fast_sort f a))
 *)
 
-let bsearch cmp arr x =
+(*let bsearch cmp arr x =
   let rec bsearch i j =
     if i > j
       then `Just_after j
@@ -689,7 +689,7 @@ let bsearch cmp arr x =
   else match cmp arr.(0) x, cmp arr.(length arr - 1) x with
   | BatOrd.Gt, _ -> `All_bigger
   | _, BatOrd.Lt -> `All_lower
-  | _ -> bsearch 0 (length arr - 1)
+  | _ -> bsearch 0 (length arr - 1)*)
 
 (*$T bsearch
   bsearch BatInt.ord [|1; 2; 2; 3; 4; 10|] 3 = `At 3
@@ -720,19 +720,19 @@ let insert xs x i =
 let eq_elements eq_elt a1 a2 = for_all2 eq_elt a1 a2
 
 (* helper function to compare arrays *)
-let rec ord_aux eq_elt i a1 a2 =
+(*let rec ord_aux eq_elt i a1 a2 =
   let open BatOrd in
   if i >= length a1 then Eq
   else match eq_elt a1.(i) a2.(i) with
     | (Lt | Gt) as res -> res
-    | Eq -> ord_aux eq_elt (i+1) a1 a2
+    | Eq -> ord_aux eq_elt (i+1) a1 a2*)
 
-let ord_elements eq_elt a1 a2 = ord_aux eq_elt 0 a1 a2
+(*let ord_elements eq_elt a1 a2 = ord_aux eq_elt 0 a1 a2*)
 
-let equal eq a1 a2 =
+(*let equal eq a1 a2 =
   BatOrd.bin_eq
     BatInt.equal (length a1) (length a2)
-    (eq_elements eq) a1 a2
+    (eq_elements eq) a1 a2*)
 (*$T equal
   equal (=) [|1;2;3|] [|1;2;3|]
   not (equal (=) [|1;2;3|] [|1;2;3;4|])
@@ -742,10 +742,10 @@ let equal eq a1 a2 =
   not (equal (<>) [|1;2;3|] [|3;2;1|])
 *)
 
-let ord ord_elt a1 a2 =
+(*let ord ord_elt a1 a2 =
   BatOrd.bin_ord
     BatInt.ord (length a1) (length a2)
-    (ord_elements ord_elt) a1 a2
+    (ord_elements ord_elt) a1 a2*)
 (*$T ord
   ord BatInt.ord [|2|] [|1;2|] = BatOrd.Lt
   ord BatInt.ord [|1;1|] [|2|] = BatOrd.Gt
@@ -753,8 +753,8 @@ let ord ord_elt a1 a2 =
   ord BatInt.ord [|1;1;1|] [|1;1;1|] = BatOrd.Eq
 *)
 
-let shuffle ?state a =
-  BatInnerShuffle.array_shuffle ?state a
+(*let shuffle ?state a =
+  BatInnerShuffle.array_shuffle ?state a*)
 (*$T shuffle
   let s = Random.State.make [|11|] in \
   let a = [|1;2;3;4;5;6;7;8;9|] in \
@@ -766,7 +766,7 @@ let shuffle ?state a =
 *)
 
 module Incubator = struct
-  module Eq (T : BatOrd.Eq) = struct
+  (*module Eq (T : BatOrd.Eq) = struct
     type t = T.t array
     let eq = equal T.eq
   end
@@ -774,7 +774,7 @@ module Incubator = struct
   module Ord (T : BatOrd.Ord) = struct
     type t = T.t array
     let ord = ord T.ord
-  end
+  end*)
 end
 
 let left a len = if len >= length a then a else sub a 0 len
@@ -827,16 +827,15 @@ struct
   external create     : int -> 'a -> ('a, _) t                  = "caml_make_vect"
 
 
-##V>=4.2##  external make_float: int -> (float, _) t = "caml_make_float_vect"
-##V<4.2##  let make_float n = make n 0.
+external make_float: int -> (float, _) t = "caml_make_float_vect"
 
   let init         = init
   let make_matrix  = make_matrix
   let create_matrix= make_matrix
   let iter         = iter
   let map          = map
-  let filter       = filter
-  let filter_map   = filter_map
+  (*let filter       = filter*)
+  (*let filter_map   = filter_map*)
   let iteri        = iteri
   let mapi         = mapi
   let modify       = modify
@@ -851,8 +850,8 @@ struct
   let mem          = mem
   let memq         = memq
   let findi        = findi
-  let find_all     = find_all
-  let partition    = partition
+  (*let find_all     = find_all*)
+  (*let partition    = partition*)
   let rev          = rev
   let rev_in_place = rev_in_place
   let append       = append
@@ -861,19 +860,19 @@ struct
   let copy         = copy
   let fill         = fill
   let blit         = blit
-  let enum         = enum
-  let of_enum      = of_enum
-  let backwards    = backwards
-  let of_backwards = of_backwards
+  (*let enum         = enum*)
+  (*let of_enum      = of_enum*)
+  (*let backwards    = backwards*)
+  (*let of_backwards = of_backwards*)
   let to_list      = to_list
   let of_list      = of_list
   let sort         = sort
   let stable_sort  = stable_sort
   let fast_sort    = fast_sort
   let compare      = compare
-  let print        = print
-  let ord          = ord
-  let equal        = equal
+  (*let print        = print*)
+  (*let ord          = ord*)
+  (*let equal        = equal*)
   external unsafe_get : ('a, [> `Read]) t -> int -> 'a = "%array_unsafe_get"
   external unsafe_set : ('a, [> `Write])t -> int -> 'a -> unit = "%array_unsafe_set"
 
@@ -904,8 +903,8 @@ struct
     let for_all ~f a = for_all f a
     let iter2i  ~f a b = iter2i f a b
     let find ~f a = find f a
-    let filter ~f a = filter f a
-    let filter_map ~f a = filter_map f a
+    (*let filter ~f a = filter f a*)
+    (*let filter_map ~f a = filter_map f a*)
   end
 
   module Exceptionless =
@@ -960,8 +959,8 @@ struct
   let iter2i  ~f a b = iter2i f a b
   let find ~f a = find f a
   let findi ~f e = findi f e
-  let filter ~f a = filter f a
-  let filter_map ~f a = filter_map f a
+  (*let filter ~f a = filter f a*)
+  (*let filter_map ~f a = filter_map f a*)
   module LExceptionless = struct
     include Exceptionless
     let find ~f e = find f e

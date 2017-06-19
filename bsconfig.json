@@ -6,7 +6,9 @@
       "option.ml",
       "option.mli",
       "batList.ml",
-      "batList.mli"
+      "batList.mli",
+      "batArray.ml",
+      "batArray.mli"
     ]
   }
 }
