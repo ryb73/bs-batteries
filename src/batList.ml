@@ -410,14 +410,14 @@ let unique ?(eq = ( = )) l =
   [1;2] (unique ~eq:(fun x y -> x land 1 = y land 1) [2;2;2;4;6;8;3;1;2])
 *)
 
-let unique_cmp ?(cmp = Pervasives.compare) l =
+(*let unique_cmp ?(cmp = Pervasives.compare) l =
   let set      = ref (BatMap.PMap.create cmp) in
   let should_keep x =
     if BatMap.PMap.mem x !set then false
     else ( set := BatMap.PMap.add x true !set; true )
   in
   (* use a stateful filter to remove duplicate elements *)
-  List.filter should_keep l
+  List.filter should_keep l*)
 
 (*$= unique_cmp & ~printer:(IO.to_string (List.print Int.print))
   [1;2;3;4;5;6] (unique_cmp [1;1;2;2;3;3;4;5;6;4;5;6])
@@ -1043,7 +1043,7 @@ let transpose = function
   transpose [ [1] ] = [ [1] ]
 *)
 
-let enum l =
+(*let enum l =
   let rec make lr count =
     BatEnum.make
       ~next:(fun () ->
@@ -1071,7 +1071,7 @@ let of_enum e =
 
 
 
-let backwards l = enum (rev l) (*TODO: should we make it more efficient?*)
+let backwards l = enum (rev l)*) (*TODO: should we make it more efficient?*)
 (*let backwards l = (*This version only needs one pass but is actually less lazy*)
   let rec aux acc = function
     | []   -> acc
@@ -1079,11 +1079,11 @@ let backwards l = enum (rev l) (*TODO: should we make it more efficient?*)
   in aux l*)
 
 
-let of_backwards e =
+(*let of_backwards e =
   let rec aux acc = match BatEnum.get e with
     | Some h -> aux (h::acc)
     | None   -> acc
-  in aux []
+  in aux []*)
 
 let assoc_inv e l =
   let rec aux = function
@@ -1214,8 +1214,7 @@ let sort_unique cmp lst =
       List.rev rev_result
     end
 
-##V<4.2##let sort_uniq = sort_unique
-##V>=4.2##let sort_uniq = List.sort_uniq
+let sort_uniq = List.sort_uniq
 
 let group cmp lst =
   let sorted = List.sort cmp lst in
@@ -1264,7 +1263,7 @@ let rec n_cartesian_product = function
   ncp [[1;2;3]; [4;5]] = [[1;4]; [1;5]; [2;4]; [2;5]; [3;4]; [3;5]]
 *)
 
-let print ?(first="[") ?(last="]") ?(sep="; ") print_a  out = function
+(*let print ?(first="[") ?(last="]") ?(sep="; ") print_a  out = function
   | []   ->
     BatInnerIO.nwrite out first;
     BatInnerIO.nwrite out last
@@ -1276,9 +1275,9 @@ let print ?(first="[") ?(last="]") ?(sep="; ") print_a  out = function
     BatInnerIO.nwrite out first;
     print_a out h;
     iter (fun x -> BatInnerIO.nwrite out sep; print_a out x) t;
-    BatInnerIO.nwrite out last
+    BatInnerIO.nwrite out last*)
 
-let t_printer a_printer _paren out x = print (a_printer false) out x
+(*let t_printer a_printer _paren out x = print (a_printer false) out x*)
 
 let reduce f = function [] -> invalid_arg "Empty List"
                       | h::t -> fold_left f h t
@@ -1407,10 +1406,10 @@ let subset cmp l l' = for_all (fun x -> mem_cmp cmp x l') l
   subset Pervasives.compare [1;2] [1;2;3] = true
 *)
 
-let shuffle ?state l =
+(*let shuffle ?state l =
   let arr = Array.of_list l in
   BatInnerShuffle.array_shuffle ?state arr;
-  Array.to_list arr
+  Array.to_list arr*)
 (*$T shuffle
   let s = Random.State.make [|11|] in \
   shuffle ~state:s [1;2;3;4;5;6;7;8;9] = [7; 2; 9; 5; 3; 6; 4; 1; 8]
@@ -1522,43 +1521,43 @@ module Infix = struct
   let ( @ ) = ( @ )
 end
 
-open BatOrd
+(*open BatOrd*)
 
-let rec eq eq_elt l1 l2 =
+(*let rec eq eq_elt l1 l2 =
   match l1 with
   | [] -> (match l2 with [] -> true | _ -> false)
   | hd1::tl1 ->
     (match l2 with
      | [] -> false
-     | hd2::tl2 -> bin_eq eq_elt hd1 hd2 (eq eq_elt) tl1 tl2)
+     | hd2::tl2 -> bin_eq eq_elt hd1 hd2 (eq eq_elt) tl1 tl2)*)
 
-let rec ord ord_elt l1 l2 =
+(*let rec ord ord_elt l1 l2 =
   match l1 with
   | [] -> (match l2 with [] -> Eq | _::_ -> Lt)
   | hd1::tl1 ->
     (match l2 with
      | [] -> Gt
-     | hd2::tl2 -> bin_ord ord_elt hd1 hd2 (ord ord_elt) tl1 tl2)
+     | hd2::tl2 -> bin_ord ord_elt hd1 hd2 (ord ord_elt) tl1 tl2)*)
 
-let rec compare comp_elt l1 l2 =
+(*let rec compare comp_elt l1 l2 =
   match l1 with
   | [] -> (match l2 with [] -> 0 | _::_ -> -1)
   | hd1::tl1 ->
     (match l2 with
      | [] -> 1
-     | hd2::tl2 -> bin_comp comp_elt hd1 hd2 (compare comp_elt) tl1 tl2)
+     | hd2::tl2 -> bin_comp comp_elt hd1 hd2 (compare comp_elt) tl1 tl2)*)
 
-module Eq (T : Eq) = struct
+(*module Eq (T : Eq) = struct
   type t = T.t list
   let eq = eq T.eq
-end
+end*)
 
-module Ord (T : Ord) = struct
+(*module Ord (T : Ord) = struct
   type t = T.t list
   let ord = ord T.ord
-end
+end*)
 
-module Comp (T : Comp) = struct
+(*module Comp (T : Comp) = struct
   type t = T.t list
   let compare = compare T.compare
-end
+end*)

@@ -152,7 +152,7 @@ end
 
 (** {6 Boilerplate code}*)
 
-open BatOrd
+(*open BatOrd*)
 (*val ord : 'a ord -> 'a option ord*)
 (** Comparison between optional values
     @since 2.2.0 *)

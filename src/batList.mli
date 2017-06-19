@@ -60,8 +60,8 @@
 type 'a t = 'a list
 (**The type of lists*)
 
-include BatEnum.Enumerable with type 'a enumerable = 'a t
-include BatInterfaces.Mappable with type 'a mappable = 'a t
+(*include BatEnum.Enumerable with type 'a enumerable = 'a t*)
+(*include BatInterfaces.Mappable with type 'a mappable = 'a t*)
 
 
 (**{6 Base operations}*)
@@ -98,7 +98,7 @@ val at : 'a list -> int -> 'a
 val rev : 'a list -> 'a list
 (** List reversal. *)
 
-val shuffle : ?state:Random.State.t -> 'a list -> 'a list
+(*val shuffle : ?state:Random.State.t -> 'a list -> 'a list*)
 (** [shuffle ~state:rs l] randomly shuffles the elements of [l].
     The optional random state [rs] allows to control the random
     numbers being used during shuffling (for reproducibility).
@@ -493,7 +493,7 @@ val unique : ?eq:('a -> 'a -> bool) -> 'a list -> 'a list
     @since 2.0
 *)
 
-val unique_cmp : ?cmp:('a -> 'a -> int) -> 'a list -> 'a list
+(*val unique_cmp : ?cmp:('a -> 'a -> int) -> 'a list -> 'a list*)
 (** As [unique], except comparator parameter returns an int.  Default
     comparator is [Pervasives.compare].  This function takes O(n log n)
     time.
@@ -706,21 +706,21 @@ val interleave : ?first:'a -> ?last:'a -> 'a -> 'a list -> 'a list
     Abstraction layer.*)
 
 
-val enum : 'a list -> 'a BatEnum.t
+(*val enum : 'a list -> 'a BatEnum.t*)
 (** Returns an enumeration of the elements of a list. This enumeration may
     be used to visit elements of the list in forward order (i.e. from the
     first element to the last one)*)
 
-val of_enum : 'a BatEnum.t -> 'a list
+(*val of_enum : 'a BatEnum.t -> 'a list*)
 (** Build a list from an enumeration. In the result, elements appear in the
     same order as they did in the source enumeration. *)
 
-val backwards : 'a list -> 'a BatEnum.t
+(*val backwards : 'a list -> 'a BatEnum.t*)
 (** Returns an enumeration of the elements of a list. This enumeration may
     be used to visit elements of the list in backwards order (i.e. from the
     last element to the first one)*)
 
-val of_backwards : 'a BatEnum.t -> 'a list
+(*val of_backwards : 'a BatEnum.t -> 'a list*)
 (** Build a list from an enumeration. The first element of the enumeration
     becomes the last element of the list, the second element of the
     enumeration
@@ -841,11 +841,11 @@ val transpose : 'a list list -> 'a list list
 
 (** {7 Printing}*)
 
-val print : ?first:string -> ?last:string -> ?sep:string -> ('a
-      BatInnerIO.output -> 'b -> unit) ->  'a BatInnerIO.output -> 'b list -> unit
+(*val print : ?first:string -> ?last:string -> ?sep:string -> ('a
+      BatInnerIO.output -> 'b -> unit) ->  'a BatInnerIO.output -> 'b list -> unit*)
 (**Print the contents of a list*)
 
-open BatOrd
+(*open BatOrd
 val eq : 'a eq -> 'a list eq
 val ord : 'a ord -> 'a list ord
 val compare : 'a comp -> 'a list comp
@@ -855,7 +855,7 @@ val compare : 'a comp -> 'a list comp
 
 module Eq (T : Eq) : Eq with type t = T.t list
 module Ord (T : Ord) : Ord with type t = T.t list
-module Comp (T : Comp) : Comp with type t = T.t list
+module Comp (T : Comp) : Comp with type t = T.t list*)
 
 
 

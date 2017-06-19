@@ -3,7 +3,10 @@
   "sources": {
     "dir": "src",
     "files": [
-      "option.ml"
+      "option.ml",
+      "option.mli",
+      "batList.ml",
+      "batList.mli"
     ]
   }
 }
