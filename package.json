@@ -1,6 +1,6 @@
 {
   "name": "bs-batteries",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Ocaml batteries for bucklescript",
   "repository": "git@github.com:meafmira/bs-batteries.git",
   "author": "meafmira <i@meafmira.me>",

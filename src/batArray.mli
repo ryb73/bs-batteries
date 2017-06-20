@@ -493,20 +493,20 @@ val rev_in_place : 'a array -> unit
 (** Returns an enumeration of the elements of an array.
     Behavior of the enumeration is undefined if the contents of the array changes afterwards.*)
 
-(*val of_enum : 'a BatEnum.t -> 'a array*)
+val of_enum : 'a BatEnum.t -> 'a array
 (** Build an array from an enumeration. *)
 
 (*val backwards : 'a array -> 'a BatEnum.t*)
 (** Returns an enumeration of the elements of an array, from last to first. *)
 
-(*val of_backwards : 'a BatEnum.t -> 'a array*)
+val of_backwards : 'a BatEnum.t -> 'a array
 (** Build an array from an enumeration, with the first element of
     the enumeration as the last element of the array and vice
     versa. *)
 
 (** {6 Utilities} *)
 
-(*val range : 'a array -> int BatEnum.t*)
+val range : 'a array -> int BatEnum.t
 (** [range a] returns an enumeration of all valid indexes into the given
     array.  For example, [range [|2;4;6;8|] = 0--3].*)
 
