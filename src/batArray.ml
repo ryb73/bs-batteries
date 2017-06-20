@@ -347,7 +347,7 @@ let find p xs = xs.(findi p xs)
     BatEnum.is_empty e && BatEnum.is_empty e' \
   )
 *)
-(*
+
 let of_enum e =
   let n = BatEnum.count e in
   (* This assumes, reasonably, that init traverses the array in order. *)
@@ -355,12 +355,12 @@ let of_enum e =
     (fun _i ->
       match BatEnum.get e with
       | Some x -> x
-      | None -> assert false (*BISECT-VISIT*))*)
+      | None -> assert false (*BISECT-VISIT*))
 
-(*let of_backwards e =
-  of_list (BatList.of_backwards e)*)
+let of_backwards e =
+  of_list (BatList.of_backwards e)
 
-(*let range xs = BatEnum.(--^) 0 (Array.length xs)*)
+let range xs = BatEnum.(--^) 0 (Array.length xs)
 (*$Q range
   (Q.array Q.small_int) (fun a -> \
     BatEnum.equal (=) (range a) \
