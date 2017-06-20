@@ -1,9 +1,3 @@
-# Bs-batteries
-OCaml batteries binding to bucklescript. In development. Now available: `BatArray`, `BatList`, `Option`
-
-# Examples (in ReasonML)
-## Option
-```
 let odd x =>
   switch (x mod 2) {
   | 0 => Some x
@@ -21,4 +15,3 @@ let t11 =
   Option.map_default string_of_int "No value";
 
 Js.log2 "t11 value: " t11;
-```

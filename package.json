@@ -2,7 +2,6 @@
   "name": "bs-batteries",
   "version": "0.0.3",
   "description": "Ocaml batteries for bucklescript",
-  "main": "index.js",
   "repository": "git@github.com:meafmira/bs-batteries.git",
   "author": "meafmira <i@meafmira.me>",
   "license": "MIT",

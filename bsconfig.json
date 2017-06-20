@@ -1,6 +1,6 @@
 {
   "name": "bs-batteries",
-  "sources": {
+  "sources": [{
     "dir": "src",
     "files": [
       "option.ml",
@@ -10,5 +10,7 @@
       "batArray.ml",
       "batArray.mli"
     ]
-  }
+  }, {
+    "dir": "examples"
+  }]
 }
