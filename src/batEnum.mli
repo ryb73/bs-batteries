@@ -78,7 +78,7 @@ module type Enumerable = sig
 end
 
 include Enumerable with type 'a enumerable = 'a t
-include BatInterfaces.Mappable with type 'a mappable = 'a t
+(*include BatInterfaces.Mappable with type 'a mappable = 'a t*)
 
 
 (** {6 Final functions}
@@ -588,18 +588,18 @@ val interleave : 'a t array -> 'a t
     [[ x11 ; x12 ; ... ; xN1 ; x21 ; x22 ; ... ; xN2 ; x31 ; ... ]].
 *)
 
-val uniq : 'a t -> 'a t
+(*val uniq : 'a t -> 'a t*)
 (** [uniq e] returns a duplicate of [e] with repeated values
     omitted (similar to unix's [uniq] command).
     It uses structural equality to compare consecutive elements. *)
 
-val uniqq : 'a t -> 'a t
+(*val uniqq : 'a t -> 'a t*)
 (** [uniqq e] behaves as [uniq e] except it uses physical equality
     to compare consecutive elements.
 
     @since 2.4.0 *)
 
-val uniq_by : ('a -> 'a -> bool) -> 'a t -> 'a t
+(*val uniq_by : ('a -> 'a -> bool) -> 'a t -> 'a t*)
 (** [uniqq cmp e] behaves as [uniq e] except it allows to specify a
     comparison function.
 
@@ -729,7 +729,7 @@ val ( @// ) : ('a -> 'b option) -> 'a t -> 'b t
 
     This module will let you use sequence and fold_monad functions over enumerations.
 *)
-module WithMonad : functor (Mon : BatInterfaces.Monad) -> sig
+(*module WithMonad : functor (Mon : BatInterfaces.Monad) -> sig
   type 'a m = 'a Mon.m
   (** Type of the monadic elements. *)
 
@@ -740,7 +740,7 @@ module WithMonad : functor (Mon : BatInterfaces.Monad) -> sig
 val fold_monad : ('a -> 'b -> 'a m) -> 'a -> 'b t -> 'a m
   (** [fold_monad f init e] does a folding of the enumeration [e] applying step by step the function [f] that gives back results in the [Mon] monad,
       with the [init] initial element. The result is a value in the [Mon] monad. *)
-end
+end*)
 
 (** The BatEnum Monad
 
@@ -762,12 +762,12 @@ end
 
 (** {6 Boilerplate code}*)
 
-val print :  ?first:string -> ?last:string -> ?sep:string -> ('a BatInnerIO.output -> 'b -> unit) -> 'a BatInnerIO.output -> 'b t -> unit
+(*val print :  ?first:string -> ?last:string -> ?sep:string -> ('a BatInnerIO.output -> 'b -> unit) -> 'a BatInnerIO.output -> 'b t -> unit*)
 (** Print and consume the contents of an enumeration.*)
 
-val print_at_most :  ?first:string -> ?last:string -> ?sep:string ->
+(*val print_at_most :  ?first:string -> ?last:string -> ?sep:string ->
                      limit:int -> ('a BatInnerIO.output -> 'b -> unit) ->
-                     'a BatInnerIO.output -> 'b t -> unit
+                     'a BatInnerIO.output -> 'b t -> unit*)
 (** [print_at_most pp limit out enum] consumes [enum] to print its elements
     into [out] (using [pp] to print individual elements).
     At most [limit] arguments are printed, if more elements are
@@ -791,7 +791,7 @@ val compare : ('a -> 'a -> int) -> 'a t -> 'a t -> int
     element of [b]
 *)
 
-val ord : ('a -> 'a -> BatOrd.order) -> 'a t -> 'a t -> BatOrd.order
+(*val ord : ('a -> 'a -> BatOrd.order) -> 'a t -> 'a t -> BatOrd.order*)
 (** Same as [compare] but returning a {!BatOrd.order} instead of an interger. *)
 
 val equal : ('a -> 'a -> bool) -> 'a t -> 'a t -> bool
@@ -854,7 +854,7 @@ module Labels : sig
   val init:       int -> f:(int -> 'a) -> 'a t
   val switch:     f:('a -> bool) -> 'a t -> 'a t * 'a t
   val compare:    ?cmp:('a -> 'a -> int) -> 'a t -> 'a t -> int
-  val uniq:       ?cmp:('a -> 'a -> bool) -> 'a t -> 'a t
+  (*val uniq:       ?cmp:('a -> 'a -> bool) -> 'a t -> 'a t*)
 
   module LExceptionless : sig
     val find : f:('a -> bool) -> 'a t -> 'a option
