@@ -8,7 +8,8 @@
       "batList.ml",
       "batList.mli",
       "batArray.ml",
-      "batArray.mli"
+      "batArray.mli",
+      "batEnum.ml"
     ]
   }, {
     "dir": "examples"

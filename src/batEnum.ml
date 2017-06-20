@@ -828,7 +828,7 @@ let while_do cont f e =
 
 let break test e = span (fun x -> not (test x)) e
 
-let uniq_by cmp e =
+(*let uniq_by cmp e =
   match peek e with
     None -> empty ()
   | Some first ->
@@ -836,13 +836,13 @@ let uniq_by cmp e =
     let not_last x = not (cmp (BatRef.post prev (fun _ -> x)) x) in
     let result = filter not_last e in
     push result first;
-    result
+    result*)
 
-let uniq e =
+(*let uniq e =
   uniq_by (=) e
 
 let uniqq e =
-  uniq_by (==) e
+  uniq_by (==) e*)
 
 
 (*$T
@@ -1327,7 +1327,7 @@ let hard_count t =
     with No_more_elements -> !length
 
 (* common hidden function for print and print_at_most *)
-let _print_common ~first ~last ~sep ~limit print_a out e =
+(*let _print_common ~first ~last ~sep ~limit print_a out e =
   BatInnerIO.nwrite out first;
   match get e with
   | None    -> BatInnerIO.nwrite out last
@@ -1343,22 +1343,22 @@ let _print_common ~first ~last ~sep ~limit print_a out e =
         BatInnerIO.nwrite out sep;
         print_a out x;
         aux (limit-1)
-    in aux (limit-1)
+    in aux (limit-1)*)
 
-let print ?(first="") ?(last="") ?(sep=" ") print_a  out e =
-  _print_common ~first ~last ~sep ~limit:max_int print_a out e
+(*let print ?(first="") ?(last="") ?(sep=" ") print_a  out e =
+  _print_common ~first ~last ~sep ~limit:max_int print_a out e*)
 
-let print_at_most ?(first="") ?(last="") ?(sep=" ") ~limit print_a out e =
+(*let print_at_most ?(first="") ?(last="") ?(sep=" ") ~limit print_a out e =
   if limit <= 0 then raise (Invalid_argument "enum.print_at_most");
-  _print_common ~first ~last ~sep ~limit print_a out e
+  _print_common ~first ~last ~sep ~limit print_a out e*)
 
 (*$T print_at_most
   Printf.sprintf2 "yolo %a" (print_at_most ~limit:3 Int.print) \
     (range 0 ~until:10) = "yolo 0 1 2..."
 *)
 
-let t_printer a_printer _paren out e =
-  print ~first:"[" ~sep:"; " ~last:"]" (a_printer false) out e
+(*let t_printer a_printer _paren out e =
+  print ~first:"[" ~sep:"; " ~last:"]" (a_printer false) out e*)
 
 let compare cmp t u =
   let rec aux () =
@@ -1371,9 +1371,9 @@ let compare cmp t u =
       | n -> n
   in aux ()
 
-let ord ord_val t u =
+(*let ord ord_val t u =
   let cmp_val = BatOrd.comp ord_val in
-  BatOrd.ord0 (compare cmp_val t u)
+  BatOrd.ord0 (compare cmp_val t u)*)
 
 let equal eq t u =
   let rec aux () =
@@ -1462,7 +1462,7 @@ module Labels = struct
   let seq ~init ~f ~cnd  = seq init f cnd
   let unfold ~init ~f = unfold init f
   let compare ?(cmp=Pervasives.compare) t u = compare cmp t u
-  let uniq ?(cmp=(=)) x = uniq_by cmp x
+  (*let uniq ?(cmp=(=)) x = uniq_by cmp x*)
   module LExceptionless = struct
     include Exceptionless
     let find ~f e = find f e
@@ -1475,7 +1475,7 @@ module type Enumerable = sig
   val of_enum : 'a t -> 'a enumerable
 end
 
-module WithMonad (Mon : BatInterfaces.Monad) =
+(*module WithMonad (Mon : BatInterfaces.Monad) =
 struct
   type 'a m = 'a Mon.m
 
@@ -1511,7 +1511,7 @@ struct
       | Some x -> m >>= fun acc -> fold (f acc x)
     in
     fold (return init)
-end
+end*)
 
 module Monad =
 struct
@@ -1532,7 +1532,7 @@ end
     List.enum l |> id |> List.of_enum = l)
 *)
 
-module Incubator = struct
+(*module Incubator = struct
   open BatOrd
 
   let int_eq (x:int) y = x = y
@@ -1574,4 +1574,4 @@ module Incubator = struct
     let ord = ord T.ord
   end
 
-end
+end*)
