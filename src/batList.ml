@@ -1043,7 +1043,7 @@ let transpose = function
   transpose [ [1] ] = [ [1] ]
 *)
 
-(*let enum l =
+let enum l =
   let rec make lr count =
     BatEnum.make
       ~next:(fun () ->
@@ -1071,7 +1071,7 @@ let of_enum e =
 
 
 
-let backwards l = enum (rev l)*) (*TODO: should we make it more efficient?*)
+let backwards l = enum (rev l) (*TODO: should we make it more efficient?*)
 (*let backwards l = (*This version only needs one pass but is actually less lazy*)
   let rec aux acc = function
     | []   -> acc
@@ -1079,11 +1079,11 @@ let backwards l = enum (rev l)*) (*TODO: should we make it more efficient?*)
   in aux l*)
 
 
-(*let of_backwards e =
+let of_backwards e =
   let rec aux acc = match BatEnum.get e with
     | Some h -> aux (h::acc)
     | None   -> acc
-  in aux []*)
+  in aux []
 
 let assoc_inv e l =
   let rec aux = function
