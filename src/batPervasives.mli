@@ -411,7 +411,7 @@ val ( % ) : ('a -> 'b) -> ('c -> 'a) -> 'c -> 'b
       [f (g (h x))], [f @@ g @@ h x], [f % g % h @@ x]. *)
 
 (* ##V<4## val ( |> ) : 'a -> ('a -> 'b) -> 'b *)
-external (|>) : 'a -> ('a -> 'b) -> 'b = "%revapply"
+(* external (|>) : 'a -> ('a -> 'b) -> 'b = "%revapply" *)
 (** The "pipe": function application. [x |> f] is equivalent to [f x].
 
     This operator is commonly used to write a function composition by
