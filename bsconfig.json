@@ -1,18 +1,24 @@
 {
   "name": "bs-batteries",
-  "sources": [{
-    "dir": "src",
-    "files": [
-      "option.ml",
-      "option.mli",
-      "batList.ml",
-      "batList.mli",
-      "batArray.ml",
-      "batArray.mli",
-      "batEnum.ml",
-      "batEnum.mli"
-    ]
-  }, {
-    "dir": "examples"
-  }]
+  "sources": [
+    {
+      "dir": "src",
+      "files": [
+        "option.ml",
+        "option.mli",
+        "batList.ml",
+        "batList.mli",
+        "batArray.ml",
+        "batArray.mli",
+        "batEnum.ml",
+        "batEnum.mli",
+        "batInnerPervasives.ml",
+        "batPervasives.ml",
+        "batPervasives.mli"
+      ]
+    },
+    {
+      "dir": "examples"
+    }
+  ]
 }

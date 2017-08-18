@@ -58,7 +58,7 @@ let input_all ic =
     if n = 0 then
       let res = Bytes.create total in
       let pos = total - ofs in
-      let _ = String.blit buf 0 res pos ofs in
+      let _ = String.blit (Bytes.to_string buf) 0 res pos ofs in
       let coll pos buf =
         let new_pos = pos - buf_len in
         String.blit buf 0 res new_pos buf_len;
@@ -69,9 +69,9 @@ let input_all ic =
       let new_ofs = ofs + n in
       let new_total = total + n in
       if new_ofs = buf_len then
-        loop (buf :: acc) new_total (Bytes.create buf_len) 0
+        loop (Bytes.to_string buf :: acc) new_total (Bytes.create buf_len) 0
       else loop acc new_total buf new_ofs in
-  loop [] 0 (Bytes.create buf_len) 0
+  loop [] 0 (Bytes.create buf_len) 0 |> Bytes.to_string
 
 let input_file ?(bin=false) fname =
   let ch = (if bin then open_in_bin else open_in) fname in
@@ -94,7 +94,7 @@ let prerr_bool = function
 
 let string_of_char c = String.make 1 c
 
-let rec dump r =
+(* let rec dump r =
   if Obj.is_int r then
     string_of_int (Obj.magic r : int)
   else (* Block. *)
@@ -168,11 +168,11 @@ let rec dump r =
     | x when x = Obj.double_array_tag ->
       BatIO.to_string (BatArray.print BatFloat.print) (Obj.magic r : float array)
     | _ ->
-      opaque (Printf.sprintf "unknown: tag %d size %d" t s)
+      opaque (Printf.sprintf "unknown: tag %d size %d" t s) *)
 
-let dump v = dump (Obj.repr v)
+(* let dump v = dump (Obj.repr v) *)
 
-let print_any oc v = BatIO.nwrite oc (dump v)
+(* let print_any oc v = BatIO.nwrite oc (dump v) *)
 
 include BatInnerPervasives
 
@@ -180,10 +180,10 @@ let invisible_args = ref 1
 (* the number or arguments to ignore at the beginning of Sys.argv,
    usually because program-name is put in argv.(0) *)
 
-let args () =
+(* let args () =
   let e = BatArray.enum Sys.argv in
   BatEnum.drop !invisible_args e;
-  e
+  e *)
 
 let exe = Array.get Sys.argv 0
 
@@ -191,25 +191,25 @@ let argv = Sys.argv
 
 
 (** {6 I/O}*)
-let print_guess oc v = BatIO.nwrite oc (dump v)
-let prerr_guess v = prerr_endline (dump v)
+(* let print_guess oc v = BatIO.nwrite oc (dump v) *)
+(* let prerr_guess v = prerr_endline (dump v) *)
 
-let stdin             = BatIO.stdin
+(* let stdin             = BatIO.stdin
 let stdout            = BatIO.stdout
 let stderr            = BatIO.stderr
-let stdnull           = BatIO.stdnull
+let stdnull           = BatIO.stdnull *)
 
-let open_out          = BatFile.open_out
+(* let open_out          = BatFile.open_out
 let open_out_bin name =
   BatIO.output_channel ~cleanup:true (open_out_bin name)
 let open_out_gen mode perm name =
-  BatIO.output_channel ~cleanup:true (open_out_gen mode perm name)
+  BatIO.output_channel ~cleanup:true (open_out_gen mode perm name) *)
 
-let flush             = BatIO.flush
+(* let flush             = BatIO.flush
 let flush_all         = BatIO.flush_all
-let close_all         = BatIO.close_all
+let close_all         = BatIO.close_all *)
 
-let output_char       = BatChar.print
+(* let output_char       = BatChar.print
 let output_string     = BatString.print
 let output oc buf pos len =
   ignore (BatIO.output oc buf pos len)
@@ -244,7 +244,7 @@ let close_in_noerr inp=
 let input_value       = BatMarshal.input
 
 let print_all inp     = BatIO.copy inp BatIO.stdout
-let prerr_all inp     = BatIO.copy inp BatIO.stderr
+let prerr_all inp     = BatIO.copy inp BatIO.stderr *)
 
 include BatList.Infix
 
@@ -263,7 +263,7 @@ let map               = map
 let filter            = filter
 let filter_map        = filter_map
 let concat            = concat
-let print             = print
+(* let print             = print *)
 let get               = get
 let iter              = iter
 let scanl             = scanl
@@ -281,6 +281,7 @@ let verify x ex = if x then () else raise ex
 let verify_arg x s = if x then () else invalid_arg s
 
 (** {6 Clean-up}*)
-
+(* 
 let _ = at_exit close_all; (*Called second*)
   at_exit flush_all  (*Called first*)
+*)

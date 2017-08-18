@@ -1,5 +1,5 @@
 # Bs-batteries
-OCaml batteries binding to bucklescript. In development. Now available: `BatArray`, `BatList`, `Option`, `BatEnum`
+OCaml batteries binding to bucklescript. In development. Now available: `BatArray`, `BatList`, `Option`, `BatEnum`, `BarPervasives`
 
 # Examples (in ReasonML)
 ## Option
