@@ -1,6 +1,6 @@
 {
   "name": "bs-batteries",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "keywords": [
     "batteries-included",
     "bucklescript",
@@ -21,9 +21,9 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "bs-platform": "^1.7.5"
+    "bs-platform": "^1.8.2"
   },
   "devDependencies": {
-    "bs-platform": "^1.7.5"
+    "bs-platform": "^1.8.2"
   }
 }
