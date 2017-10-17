@@ -20,5 +20,6 @@
     {
       "dir": "examples"
     }
-  ]
+  ],
+  "bsc-flags": [ "-bs-super-errors" ]
 }
