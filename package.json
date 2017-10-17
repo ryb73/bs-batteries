@@ -16,14 +16,12 @@
   "author": "meafmira <i@meafmira.me>",
   "license": "MIT",
   "scripts": {
-    "build": "bsb -clean-world -make-world",
-    "watch": "bsb -clean-world -make-world -w"
+    "build": "npm run clean && bsb -make-world",
+    "watch": "npm run clean && bsb -make-world -w",
+    "clean": "rm -rf lib/ && bsb -clean-world"
   },
   "dependencies": {},
   "peerDependencies": {
-    "bs-platform": "^2.0.0"
-  },
-  "devDependencies": {
     "bs-platform": "^2.0.0"
   }
 }

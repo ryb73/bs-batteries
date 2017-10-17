@@ -185,9 +185,9 @@ let invisible_args = ref 1
   BatEnum.drop !invisible_args e;
   e *)
 
-let exe = Array.get Sys.argv 0
+(* let exe = Array.get Sys.argv 0
 
-let argv = Sys.argv
+let argv = Sys.argv *)
 
 
 (** {6 I/O}*)
@@ -281,7 +281,7 @@ let verify x ex = if x then () else raise ex
 let verify_arg x s = if x then () else invalid_arg s
 
 (** {6 Clean-up}*)
-(* 
+(*
 let _ = at_exit close_all; (*Called second*)
   at_exit flush_all  (*Called first*)
 *)

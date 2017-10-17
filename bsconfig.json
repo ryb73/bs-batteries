@@ -35,8 +35,9 @@
         "batString.mli"
       ]
     },
-    {
-      "dir": "examples"
-    }
-  ]
+    // {
+    //   "dir": "examples"
+    // }
+  ],
+  "bsc-flags": [ "-bs-super-errors" ]
 }
