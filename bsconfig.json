@@ -10,9 +10,13 @@
         "batList.mli",
         "batArray.ml",
         "batArray.mli",
+        "batDeque.ml",
+        "batDeque.mli",
         "batEnum.ml",
         "batEnum.mli",
         "batInnerPervasives.ml",
+        "batInterfaces.ml",
+        "batInterfaces.mli",
         "batPervasives.ml",
         "batPervasives.mli"
       ]

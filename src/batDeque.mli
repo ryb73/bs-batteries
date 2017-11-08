@@ -156,8 +156,8 @@ val enum : 'a dq -> 'a BatEnum.t
 
 (** {6 Printing} *)
 
-val print : ?first:string -> ?last:string -> ?sep:string
-  -> ('a, 'b) BatIO.printer -> ('a dq, 'b) BatIO.printer
+(* val print : ?first:string -> ?last:string -> ?sep:string
+  -> ('a, 'b) BatIO.printer -> ('a dq, 'b) BatIO.printer *)
 (** Print the contents of the deque. O(n) *)
 
 (**/**)
