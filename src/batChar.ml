@@ -22,13 +22,14 @@
 (*BISECT-IGNORE-BEGIN*)
 include Char
 
-##V<4.3##let lowercase_ascii = function
-##V<4.3##  | ('A'..'Z') as c -> unsafe_chr (code c - code 'A' + code 'a')
-##V<4.3##  | c -> c
-##V<4.3##
-##V<4.3##let uppercase_ascii = function
-##V<4.3##  | ('a'..'z') as c -> unsafe_chr (code c - code 'a' + code 'A')
-##V<4.3##  | c -> c
+(* ##V<4.3## *)
+let lowercase_ascii = function
+  | ('A'..'Z') as c -> unsafe_chr (code c - code 'A' + code 'a')
+  | c -> c
+
+let uppercase_ascii = function
+  | ('a'..'z') as c -> unsafe_chr (code c - code 'a' + code 'A')
+  | c -> c
 
 (*$T lowercase_ascii
   lowercase_ascii 'A' = 'a'
@@ -112,7 +113,7 @@ module Infix = struct
   let (--) = (--)
 end
 
-let print out t = BatInnerIO.write out t
+(* let print out t = BatInnerIO.write out t *)
 (*$T print
   BatIO.to_string print 'a' = "a"
   BatIO.to_string print '\n' = "\n"
