@@ -186,20 +186,20 @@ let may_rfindi p l =
   in aux l None 0
 
 let find_exn p e l =
-  BatOption.get_exn (may_find p l) e
+  Option.get_exn (may_find p l) e
 
 let rfind_exn p e l =
-  BatOption.get_exn (may_rfind p l) e
+  Option.get_exn (may_rfind p l) e
 
 let find  p l = find_exn p Not_found l
 
 let rfind p l = rfind_exn p Not_found l
 
 let findi p l =
-  BatOption.get_exn (may_findi p l) Not_found
+  Option.get_exn (may_findi p l) Not_found
 
 let rfindi p l =
-  BatOption.get_exn (may_rfindi p l) Not_found
+  Option.get_exn (may_rfindi p l) Not_found
 
 let index_of e l =
   match may_findi (fun _ x -> e = x) l with
@@ -505,9 +505,9 @@ let assoc e l = snd (find (fun (a,_) -> a = e) l)
 
 let assq  e l = snd (find (fun (a,_) -> a == e) l)
 
-let mem_assoc e l = BatOption.is_some (may_find (fun (a, _) -> a = e) l)
+let mem_assoc e l = Option.is_some (may_find (fun (a, _) -> a = e) l)
 
-let mem_assq e l = BatOption.is_some (may_find (fun (a, _) -> a == e) l)
+let mem_assq e l = Option.is_some (may_find (fun (a, _) -> a == e) l)
 
 
 
@@ -650,8 +650,8 @@ let uncombine l =
           | Cons (h1, h2), t*)
 
 
-let print ?(first="[^") ?(last="^]") ?(sep="; ") print_a out t =
-  BatEnum.print ~first ~last ~sep print_a out (enum t)
+(* let print ?(first="[^") ?(last="^]") ?(sep="; ") print_a out t =
+  BatEnum.print ~first ~last ~sep print_a out (enum t) *)
 
 module Infix = struct
   let ( ^:^ ), ( ^@^ ) = ( ^:^ ), ( ^@^ )
