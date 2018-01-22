@@ -176,7 +176,7 @@ let string_of_char c = String.make 1 c
 
 include BatInnerPervasives
 
-let invisible_args = ref 1
+(* let invisible_args = ref 1 *)
 (* the number or arguments to ignore at the beginning of Sys.argv,
    usually because program-name is put in argv.(0) *)
 
@@ -185,9 +185,9 @@ let invisible_args = ref 1
   BatEnum.drop !invisible_args e;
   e *)
 
-(* let exe = Array.get Sys.argv 0
+(* let exe = Array.get Sys.argv 0 *)
 
-let argv = Sys.argv *)
+(* let argv = Sys.argv *)
 
 
 (** {6 I/O}*)

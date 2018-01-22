@@ -186,6 +186,10 @@ let maybe_printer a_printer paren out = function
   | None -> ()
   | Some x -> a_printer paren out x
 
+let flatten = function
+  | Some (Some x) -> Some x
+  | _ -> None
+
 module Monad =
 struct
   type 'a m = 'a option

@@ -524,7 +524,7 @@ val verify_arg : bool -> string -> unit
     [args ()] is given by the elements of [Sys.argv], minus the first element.*)
 
 (**/**)
-val invisible_args : int ref
+(* val invisible_args : int ref *)
 (** The number of arguments which must never be returned by [args]
 
     Typically, [invisible_args] is [1], to drop the name of the executable. However,
@@ -534,7 +534,7 @@ val invisible_args : int ref
 (**/**)
 
 
-val exe  : string
+(* val exe  : string *)
 (** The name of the current executable.
 
     [exe] is given by the first argument of [Sys.argv]*)

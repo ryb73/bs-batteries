@@ -39,5 +39,5 @@
     //   "dir": "examples"
     // }
   ],
-  "bsc-flags": [ "-bs-super-errors" ]
+  "bsc-flags": [ "-w -27-32-34-35-38-39-44-102", "-bs-super-errors" ]
 }
