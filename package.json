@@ -21,9 +21,9 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "bs-platform": "^2.2.2"
+    "bs-platform": "^1.8.2"
   },
   "devDependencies": {
-    "bs-platform": "^2.2.2"
+    "bs-platform": "^1.8.2"
   }
 }
