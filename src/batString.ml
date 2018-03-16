@@ -36,7 +36,7 @@ let init len f =
   for i = 0 to len - 1 do
     Bytes.unsafe_set s i (f i)
   done;
-  s
+  Bytes.to_string s
 
 (*$T init
    init 5 (fun i -> BatChar.chr (i + int_of_char '0')) = "01234";
@@ -382,7 +382,7 @@ let join = concat
 
 let unsafe_slice i j s =
   if i >= j || i = length s then
-    Bytes.create 0
+    String.make 0 '\x00'
   else
     sub s i (j-i)
 
@@ -530,7 +530,7 @@ let of_enum e =
   let s = Bytes.create l in
   let i = ref 0 in
   BatEnum.iter (fun c -> Bytes.unsafe_set s (BatRef.post_incr i) c) e;
-  s
+  Bytes.to_string s
 (*$T of_enum
     Enum.init 3 (fun i -> char_of_int (i + int_of_char '0')) |> of_enum = "012"
     Enum.init 0 (fun _i -> ' ') |> of_enum = ""
@@ -542,7 +542,7 @@ let of_backwards e =
   let s = Bytes.create l in
   let i = ref (l - 1) in
   BatEnum.iter (fun c -> Bytes.unsafe_set s (BatRef.post_decr i) c) e;
-  s
+  Bytes.to_string s
 (*$T of_backwards
    "" |> enum |> of_backwards = ""
    "foo" |> enum |> of_backwards = "oof"
@@ -555,7 +555,7 @@ let map f s =
   for i = 0 to len - 1 do
     Bytes.unsafe_set sc i (f (unsafe_get s i))
   done;
-  sc
+  Bytes.to_string sc
 (*$T map
    map Char.uppercase "Five" = "FIVE"
    map Char.uppercase "" = ""
@@ -568,7 +568,7 @@ let mapi f s =
   for i = 0 to len - 1 do
     Bytes.unsafe_set sc i (f i (unsafe_get s i))
   done;
-  sc
+  Bytes.to_string sc
 (*$T mapi
    mapi (fun _ -> Char.uppercase) "Five" = "FIVE"
    mapi (fun _ -> Char.uppercase) "" = ""
@@ -693,7 +693,7 @@ let implode l =
   let rec imp i = function
     | [] -> res
     | c :: l -> Bytes.set res i c; imp (i + 1) l in
-  imp 0 l
+  Bytes.to_string (imp 0 l)
 (*$T implode
    implode ['b';'a';'r'] = "bar"
    implode [] = ""
@@ -729,7 +729,7 @@ let replace_chars f s =
       loop2 acc
   in
   loop2 strs;
-  sbuf
+  Bytes.to_string sbuf
 (*$T replace_chars
    replace_chars (function ' ' -> "(space)" | c -> of_char c) "foo bar" = "foo(space)bar"
    replace_chars (fun _ -> "") "foo" = ""
@@ -746,7 +746,7 @@ let replace ~str ~sub ~by =
      blit str 0 newstr 0 subpos ;
      blit by 0 newstr subpos bylen ;
      blit str (subpos + sublen) newstr (subpos + bylen) (strlen - subpos - sublen) ;
-     (true, newstr)
+     (true, Bytes.to_string newstr)
    with Not_found ->  (* find failed *)
      (false, str)
 (*$T replace
@@ -778,7 +778,7 @@ let nreplace ~str ~sub ~by =
       unsafe_blit by 0 newstr (j + di) bylen ;
       loop_copy (i + di + sublen) (j + di + bylen) rest in
   loop_copy 0 0 idxes ;
-  newstr
+  Bytes.to_string newstr
 (*$T nreplace
    nreplace ~str:"bar foo aaa bar" ~sub:"aa" ~by:"foo" = "bar foo afoo bar"
    nreplace ~str:"bar foo bar" ~sub:"bar" ~by:"foo" = "foo foo foo"
@@ -791,10 +791,10 @@ let nreplace ~str ~sub ~by =
 
 
 let rev_in_place s =
-  let len = String.length s in
+  let len = Bytes.length s in
   if len > 0 then for k = 0 to (len - 1)/2 do
-      let old = s.[k] and mirror = len - 1 - k in
-      Bytes.set s k s.[mirror]; Bytes.set s mirror old;
+      let old = (Bytes.get s k) and mirror = len - 1 - k in
+      Bytes.set s k (Bytes.get s mirror); Bytes.set s mirror old;
     done
 (*$= rev_in_place as f & ~printer:identity
   (let s="" in f s; s)          ""
@@ -821,7 +821,7 @@ let rev s =
   for i = 0 to len - 1 do
     Bytes.unsafe_set reversed (len - i - 1) (String.unsafe_get s i)
   done;
-  reversed
+  Bytes.to_string reversed
 
 (*$T rev
    rev "" = ""
@@ -861,7 +861,7 @@ let splice s1 off len s2 =
   blit s1 0 s 0 off; (* s1 before splice point *)
   blit s2 0 s off len2; (* s2 at splice point *)
   blit s1 (off+len) s (off+len2) (len1 - (off+len)); (* s1 after off+len *)
-  s
+  Bytes.to_string s
 (*$T splice
    splice "foo bar baz" 3 5 "XXX" = "fooXXXbaz"
    splice "foo bar baz" 5 0 "XXX" = "foo bXXXar baz"
@@ -899,9 +899,9 @@ let numeric_compare s1 s2 =
     let s1 = of_enum g1 in
     let s2 = of_enum g2 in
     if BatChar.is_digit s1.[0] && BatChar.is_digit s2.[0] then
-      let n1 = Big_int.big_int_of_string s1 in
-      let n2 = Big_int.big_int_of_string s2 in
-      Big_int.compare_big_int n1 n2
+      let n1 = Int64.of_string s1 in
+      let n2 = Int64.of_string s2 in
+      Int64.compare n1 n2
     else
       String.compare s1 s2
   ) e1 e2
@@ -924,8 +924,9 @@ let numeric_compare s1 s2 =
   (Q.triple Q.printable_string Q.pos_int Q.pos_int) (fun (s,m,n) -> numeric_compare (s ^ string_of_int m) (s ^ string_of_int n) = BatInt.compare m n)
 *)
 
-##V<4.3##let uppercase_ascii s = map BatChar.uppercase_ascii s
-##V<4.3##let lowercase_ascii s = map BatChar.lowercase_ascii s
+(* ##V<4.3## *)
+let uppercase_ascii s = map BatChar.uppercase_ascii s
+let lowercase_ascii s = map BatChar.lowercase_ascii s
 
 (*$T uppercase_ascii
   equal ("five" |> uppercase_ascii) "FIVE"
@@ -937,14 +938,16 @@ let numeric_compare s1 s2 =
   equal ("ÉCOLE" |> lowercase_ascii) "École"
  *)
 
-##V<4.3##let map_first_char f s =
-##V<4.3##  let r = copy s in
-##V<4.3##  if length s > 0 then
-##V<4.3##    unsafe_set r 0 (f(unsafe_get s 0));
-##V<4.3##  r
+(* ##V<4.3## *)
+let map_first_char f s =
+  let r = Bytes.of_string s in
+  if length s > 0 then
+    Bytes.unsafe_set r 0 (f(unsafe_get s 0));
+  Bytes.to_string r
 
-##V<4.3##let capitalize_ascii s = map_first_char BatChar.uppercase_ascii s
-##V<4.3##let uncapitalize_ascii s = map_first_char BatChar.lowercase_ascii s
+(* ##V<4.3## *)
+let capitalize_ascii s = map_first_char BatChar.uppercase_ascii s
+let uncapitalize_ascii s = map_first_char BatChar.lowercase_ascii s
 
 (*$T capitalize_ascii
   equal ("five" |> capitalize_ascii) "Five"
@@ -1004,8 +1007,8 @@ let edit_distance s1 s2 =
   Q.(pair string string) (fun (s1, s2) -> edit_distance s1 s2 = edit_distance s2 s1)
 *)
 
-let print = BatInnerIO.nwrite
-let println out s = BatInnerIO.nwrite out s; BatInnerIO.write out '\n'
+(* let print = BatInnerIO.nwrite
+let println out s = BatInnerIO.nwrite out s; BatInnerIO.write out '\n' *)
 
 (*$T
   BatIO.to_string print "\n" = "\n"
@@ -1025,7 +1028,7 @@ let quote s = Printf.sprintf "%S" s
    quote "\n" = "\"\\n\""
 *)
 
-let print_quoted out s = BatInnerIO.nwrite out (quote s)
+(* let print_quoted out s = BatInnerIO.nwrite out (quote s) *)
 
 module Exceptionless =
 struct
@@ -1134,8 +1137,9 @@ struct
   let uncapitalize  = uncapitalize
   let copy          = copy
   let sub           = sub
-  let fill          = Bytes.fill
-  let blit          = blit
+  (* I don't know how to deal with these *)
+  (* let fill          = Bytes.fill
+  let blit          = blit *)
   let concat        = concat
   let escaped       = escaped
   let replace_chars = replace_chars
@@ -1164,9 +1168,6 @@ struct
   let to_list       = to_list
 
   let quote         = quote
-  let print         = print
-  let println       = println
-  let print_quoted  = print_quoted
 
   external of_string : string -> _ t                = "%identity"
   external to_string : [`Read | `Write] t -> string = "%identity"
@@ -1175,10 +1176,10 @@ struct
 
   external length : _ t -> int = "%string_length"
   external get : [> `Read] t -> int -> char = "%string_safe_get"
-  external set : [> `Write] t -> int -> char -> unit = "%string_safe_set"
+  external set : [> `Write] t -> int -> char -> unit = "%bytes_safe_set"
   external create : int -> _ t = "caml_create_string"
   external unsafe_get : [> `Read] t -> int -> char = "%string_unsafe_get"
-  external unsafe_set : [> `Write] t -> int -> char -> unit = "%string_unsafe_set"
+  external unsafe_set : [> `Write] t -> int -> char -> unit = "%bytes_unsafe_set"
   external unsafe_blit :
     [> `Read] t -> int -> [> `Write] t -> int -> int -> unit = "caml_blit_string" "noalloc"
   external unsafe_fill :

@@ -290,7 +290,7 @@ let of_enum e =
     (Q.list Q.int) (fun l -> to_list (of_enum (List.enum l)) = l)
   *)
 
-let print ?(first="[") ?(last="]") ?(sep="; ") elepr out dq =
+(* let print ?(first="[") ?(last="]") ?(sep="; ") elepr out dq =
   let rec spin dq = match front dq with
     | None -> ()
     | Some (a, dq) when size dq = 0 ->
@@ -302,7 +302,7 @@ let print ?(first="[") ?(last="]") ?(sep="; ") elepr out dq =
   in
   BatInnerIO.nwrite out first ;
   spin dq ;
-  BatInnerIO.nwrite out last
+  BatInnerIO.nwrite out last *)
 
   (*$Q print
     (Q.list Q.int) (fun l -> \

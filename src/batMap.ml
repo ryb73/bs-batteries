@@ -384,8 +384,8 @@ module Concrete = struct
 
   let of_enum cmp e = BatEnum.fold (fun m (k, v) -> add k v cmp m) empty e
 
-  let print ?(first="{\n") ?(last="\n}") ?(sep=",\n") ?(kvsep=": ") print_k print_v out t =
-    BatEnum.print ~first ~last ~sep (fun out (k,v) -> BatPrintf.fprintf out "%a%s%a" print_k k kvsep print_v v) out (enum t)
+  (* let print ?(first="{\n") ?(last="\n}") ?(sep=",\n") ?(kvsep=": ") print_k print_v out t =
+    BatEnum.print ~first ~last ~sep (fun out (k,v) -> BatPrintf.fprintf out "%a%s%a" print_k k kvsep print_v v) out (enum t) *)
 
   (*We rely on [fold] rather than on ['a implementation] to
     make future changes of implementation in the base
@@ -764,10 +764,10 @@ sig
     (key -> 'a option -> 'b option -> 'c option) -> 'a t -> 'b t -> 'c t
   (** {6 Boilerplate code}*)
   (** {7 Printing}*)
-  val print :  ?first:string -> ?last:string -> ?sep:string -> ?kvsep:string ->
+  (* val print :  ?first:string -> ?last:string -> ?sep:string -> ?kvsep:string ->
     ('a BatInnerIO.output -> key -> unit) ->
     ('a BatInnerIO.output -> 'c -> unit) ->
-    'a BatInnerIO.output -> 'c t -> unit
+    'a BatInnerIO.output -> 'c t -> unit *)
   module Exceptionless : sig
     val find: key -> 'a t -> 'a option
     val choose: 'a t -> (key * 'a) option
@@ -841,8 +841,8 @@ struct
   let mapi f t = t_of_impl (Concrete.mapi f (impl_of_t t))
   let map f t = t_of_impl (Concrete.map f (impl_of_t t))
 
-  let print ?first ?last ?sep ?kvsep print_k print_v out t =
-    Concrete.print ?first ?last ?sep ?kvsep print_k print_v out (impl_of_t t)
+  (* let print ?first ?last ?sep ?kvsep print_k print_v out t =
+    Concrete.print ?first ?last ?sep ?kvsep print_k print_v out (impl_of_t t) *)
 
   let filterv f t =
     t_of_impl (Concrete.filterv f (impl_of_t t) Ord.compare)
@@ -925,11 +925,11 @@ struct
 
 end
 
-module Int = Make (BatInt)
-module Int32 = Make (BatInt32)
-module Int64 = Make (BatInt64)
-module Nativeint = Make (BatNativeint)
-module Float = Make (BatFloat)
+(* module Int = Make (BatInt) *)
+(* module Int32 = Make (BatInt32) *)
+(* module Int64 = Make (BatInt64) *)
+(* module Nativeint = Make (BatNativeint) *)
+(* module Float = Make (BatFloat) *)
 module Char = Make (BatChar)
 module String = Make (BatString)
 
@@ -1025,7 +1025,7 @@ let values  t = BatEnum.map snd (enum t)
 
 let of_enum e = Concrete.of_enum Pervasives.compare e
 
-let print = Concrete.print
+(* let print = Concrete.print *)
 
 let filterv  f t = Concrete.filterv f t Pervasives.compare
 let filter f t = Concrete.filter f t Pervasives.compare
@@ -1227,8 +1227,8 @@ module PMap = struct (*$< PMap *)
   let of_enum ?(cmp = Pervasives.compare) e =
     { cmp = cmp; map = Concrete.of_enum cmp e }
 
-  let print ?first ?last ?sep ?kvsep print_k print_v out t =
-    Concrete.print ?first ?last ?sep ?kvsep print_k print_v out t.map
+  (* let print ?first ?last ?sep ?kvsep print_k print_v out t =
+    Concrete.print ?first ?last ?sep ?kvsep print_k print_v out t.map *)
 
   let filterv  f t = { t with map = Concrete.filterv f t.map t.cmp }
   let filter f t = { t with map = Concrete.filter f t.map t.cmp }

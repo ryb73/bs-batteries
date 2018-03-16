@@ -102,14 +102,14 @@ external get : string -> int -> char = "%string_safe_get"
     @raise Invalid_argument if [n] not a valid character number in [s]. *)
 
 
-external set : string -> int -> char -> unit = "%string_safe_set"
+external set : bytes -> int -> char -> unit = "%bytes_safe_set"
 (** [String.set s n c] modifies string [s] in place,
     replacing the character number [n] by [c].
     You can also write [s.[n] <- c] instead of [String.set s n c].
 
     @raise Invalid_argument if [n] is not a valid character number in [s]. *)
 
-external create : int -> string = "caml_create_string"
+external create : int -> bytes = "caml_create_string"
 (** [String.create n] returns a fresh string of length [n].
     The string initially contains arbitrary characters.
 
@@ -132,14 +132,14 @@ val sub : string -> int -> int -> string
     @raise Invalid_argument if [start] and [len] do not
     designate a valid substring of [s]. *)
 
-val fill : string -> int -> int -> char -> unit
+val fill : bytes -> int -> int -> char -> unit
 (** [String.fill s start len c] modifies string [s] in place,
     replacing [len] characters by [c], starting at [start].
 
     @raise Invalid_argument if [start] and [len] do not
     designate a valid substring of [s]. *)
 
-val blit : string -> int -> string -> int -> int -> unit
+val blit : string -> int -> bytes -> int -> int -> unit
 (** [String.blit src srcoff dst dstoff len] copies [len] characters
     from string [src], starting at character number [srcoff], to
     string [dst], starting at character number [dstoff]. It works
@@ -662,12 +662,12 @@ val rev : string -> string
 
 (** {6 In-Place Transformations}*)
 
-val rev_in_place : string -> unit
+val rev_in_place : bytes -> unit
 (** [rev_in_place s] mutates the string [s], so that its new value is
     the mirror of its old one: for instance if s contained ["Example!"], after
     the mutation it will contain ["!elpmaxE"]. *)
 
-val in_place_mirror : string -> unit
+val in_place_mirror : bytes -> unit
 (** @deprecated Use {!String.rev_in_place} instead *)
 
 (** {6 Splitting around}*)
@@ -825,19 +825,19 @@ val edit_distance : t -> t -> int
 
 (** {7 Printing}*)
 
-val print: 'a BatInnerIO.output -> string -> unit
+(* val print: 'a BatInnerIO.output -> string -> unit *)
 (**Print a string.
 
    Example: [String.print stdout "foo\n"]
 *)
 
-val println: 'a BatInnerIO.output -> string -> unit
+(* val println: 'a BatInnerIO.output -> string -> unit *)
 (**Print a string, end the line.
 
    Example: [String.println stdout "foo"]
 *)
 
-val print_quoted: 'a BatInnerIO.output -> string -> unit
+(* val print_quoted: 'a BatInnerIO.output -> string -> unit *)
 (**Print a string, with quotes as added by the [quote] function.
 
    [String.print_quoted stdout "foo"] prints ["foo"] (with the quotes).
@@ -946,7 +946,7 @@ sig
 
   external get : [> `Read] t -> int -> char = "%string_safe_get"
 
-  external set : [> `Write] t -> int -> char -> unit = "%string_safe_set"
+  external set : [> `Write] t -> int -> char -> unit = "%bytes_safe_set"
 
   external create : int -> _ t = "caml_create_string"
 
@@ -1074,9 +1074,9 @@ sig
 
   val sub : [> `Read] t -> int -> int -> _ t
 
-  val fill : [> `Write] t -> int -> int -> char -> unit
+  (* val fill : [> `Write] t -> int -> int -> char -> unit *)
 
-  val blit : [> `Read] t -> int -> [> `Write] t -> int -> int -> unit
+  (* val blit : [> `Read] t -> int -> [> `Write] t -> int -> int -> unit *)
 
   val concat : [> `Read] t -> [> `Read] t list -> _ t
 
@@ -1116,17 +1116,17 @@ sig
 
   (** {7 Printing}*)
 
-  val print: 'a BatInnerIO.output -> [> `Read] t -> unit
+  (* val print: 'a BatInnerIO.output -> [> `Read] t -> unit
 
   val println: 'a BatInnerIO.output -> [> `Read] t -> unit
 
-  val print_quoted: 'a BatInnerIO.output -> [> `Read] t -> unit
+  val print_quoted: 'a BatInnerIO.output -> [> `Read] t -> unit *)
 
   (**/**)
 
   (** {6 Undocumented operations} *)
   external unsafe_get : [> `Read] t -> int -> char = "%string_unsafe_get"
-  external unsafe_set : [> `Write] t -> int -> char -> unit = "%string_unsafe_set"
+  external unsafe_set : [> `Write] t -> int -> char -> unit = "%bytes_unsafe_set"
   external unsafe_blit :
     [> `Read] t -> int -> [> `Write] t -> int -> int -> unit = "caml_blit_string" "noalloc"
   external unsafe_fill : [> `Write] t -> int -> int -> char -> unit = "caml_fill_string" "noalloc"
@@ -1171,9 +1171,9 @@ end
 (* The following is for system use only. Do not call directly. *)
 
 external unsafe_get : string -> int -> char = "%string_unsafe_get"
-external unsafe_set : string -> int -> char -> unit = "%string_unsafe_set"
+external unsafe_set : bytes -> int -> char -> unit = "%bytes_unsafe_set"
 external unsafe_blit :
-  string -> int -> string -> int -> int -> unit = "caml_blit_string" "noalloc"
-external unsafe_fill : string -> int -> int -> char -> unit = "caml_fill_string" "noalloc"
+  string -> int -> bytes -> int -> int -> unit = "caml_blit_string" "noalloc"
+external unsafe_fill : bytes -> int -> int -> char -> unit = "caml_fill_string" "noalloc"
 
   (**/**)

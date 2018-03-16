@@ -311,10 +311,10 @@ sig
 
   (** {7 Printing}*)
 
-  val print :  ?first:string -> ?last:string -> ?sep:string -> ?kvsep:string ->
+  (* val print :  ?first:string -> ?last:string -> ?sep:string -> ?kvsep:string ->
     ('a BatInnerIO.output -> key -> unit) ->
     ('a BatInnerIO.output -> 'c -> unit) ->
-    'a BatInnerIO.output -> 'c t -> unit
+    'a BatInnerIO.output -> 'c t -> unit *)
 
   (** Output signature of the functor {!Map.Make}. *)
 
@@ -378,11 +378,11 @@ module Make (Ord : BatInterfaces.OrderedType) : S with type key = Ord.t
 
 (** {6 Common instantiations} **)
 
-module Int : S with type key = int
-module Int32 : S with type key = int32
-module Int64 : S with type key = int64
-module Nativeint : S with type key = nativeint
-module Float : S with type key = float
+(* module Int : S with type key = int *)
+(* module Int32 : S with type key = int32 *)
+(* module Int64 : S with type key = int64 *)
+(* module Nativeint : S with type key = nativeint *)
+(* module Float : S with type key = float *)
 module Char : S with type key = char
 module String : S with type key = string
 
@@ -670,10 +670,10 @@ val bindings : ('key, 'a) t -> ('key * 'a) list
 
 (** {7 Printing}*)
 
-val print :  ?first:string -> ?last:string -> ?sep:string -> ?kvsep:string ->
+(* val print :  ?first:string -> ?last:string -> ?sep:string -> ?kvsep:string ->
   ('a BatInnerIO.output -> 'b -> unit) ->
   ('a BatInnerIO.output -> 'c -> unit) ->
-  'a BatInnerIO.output -> ('b, 'c) t -> unit
+  'a BatInnerIO.output -> ('b, 'c) t -> unit *)
 
 
 
@@ -982,10 +982,10 @@ module PMap : sig
 
   (** {7 Printing}*)
 
-  val print :  ?first:string -> ?last:string -> ?sep:string -> ?kvsep:string ->
+  (* val print :  ?first:string -> ?last:string -> ?sep:string -> ?kvsep:string ->
     ('a BatInnerIO.output -> 'b -> unit) ->
     ('a BatInnerIO.output -> 'c -> unit) ->
-    'a BatInnerIO.output -> ('b, 'c) t -> unit
+    'a BatInnerIO.output -> ('b, 'c) t -> unit *)
 
   (** get the comparison function used for a polymorphic map *)
   val get_cmp : ('a, 'b) t -> ('a -> 'a -> int)

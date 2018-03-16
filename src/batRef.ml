@@ -91,7 +91,7 @@ external set : 'a ref -> 'a -> unit = "%setfield0"
 external get : 'a ref -> 'a = "%field0"
 (** As [ ! ]*)
 
-let print print_a out r = print_a out !r
+(* let print print_a out r = print_a out !r *)
 
 let toggle r = r := not !r
 
