@@ -1135,7 +1135,7 @@ struct
   let lowercase     = lowercase
   let capitalize    = capitalize
   let uncapitalize  = uncapitalize
-  let copy          = copy
+  let copy          = fun x -> x
   let sub           = sub
   (* I don't know how to deal with these *)
   (* let fill          = Bytes.fill

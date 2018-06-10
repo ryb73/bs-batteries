@@ -816,7 +816,7 @@ struct
   external t_of_impl: 'a implementation -> 'a t = "%identity"
   external impl_of_t: 'a t -> 'a implementation = "%identity"
 
-  type 'a iter = E | C of key * 'a * 'a implementation * 'a iter
+  (* type 'a iter = E | C of key * 'a * 'a implementation * 'a iter *)
 
   let cardinal t = Concrete.cardinal (impl_of_t t)
   let enum t = Concrete.enum (impl_of_t t)

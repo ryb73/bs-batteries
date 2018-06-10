@@ -71,3 +71,6 @@ Temporary Items
 .apdisk
 
 # End of https://www.gitignore.io/api/macos
+
+# persistent-package-linker
+package-lock.json

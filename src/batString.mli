@@ -73,7 +73,7 @@
     @author Edgar Friendly
 *)
 
-open String
+(* open String *)
 
 val init : int -> (int -> char) -> string
 (** [init l f] returns the string of length [l] with the chars
