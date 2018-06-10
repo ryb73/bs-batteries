@@ -110,6 +110,8 @@ val get : 'a option -> 'a
 val get_exn : 'a option -> exn -> 'a
 (** [get_exn (Some x) e] returns [x] and [get_exn None e] raises [e]. *)
 
+val get_js : 'a option -> 'a
+
 val compare : ?cmp:('a -> 'a -> int) -> 'a option -> 'a option -> int
 (** Compare two options, possibly using custom comparators for the
     value.  [None] is always assumed to be less than [Some _].  The

@@ -106,6 +106,11 @@ let get s = get_exn s (Invalid_argument "Option.get")
   try get (Some true) with Invalid_argument _ -> false
 *)
 
+let get_js s =
+  try get s
+  with
+    | Invalid_argument "Option.get" -> Js.Exn.raiseError("Invalid argument for Option.get")
+
 let map_default f v = function
   | None -> v
   | Some v2 -> f v2
